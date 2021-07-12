@@ -9,7 +9,6 @@
 }
 
 .menu__logo {
-  width: 150px;
   float: left;
 }
 
@@ -17,6 +16,8 @@
   display: inline-block;
   font-size: 20px;
   padding: 19px 20px;
+}
+.menu__logo a img{
 }
 
 .menu__container .ant-menu-item {
