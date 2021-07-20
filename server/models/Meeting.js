@@ -38,6 +38,11 @@ const meetingSchema = mongoose.Schema(
             type: Number,
             default: 0,
         },
+        status: {
+            type: Number,
+            default: 0,
+            // 0 : 모집중 , 1 : 종료
+        },
     },
     { timestamps: true }
 );

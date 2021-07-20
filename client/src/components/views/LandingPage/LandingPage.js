@@ -1,8 +1,8 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "antd";
-import { Areas, Parts } from "../../area_parts";
-import moment from "moment";
+import { Col, Row } from "antd";
+import "moment/locale/ko";
+import MeetCard from "./MeetCard/MeetCard";
 
 function LandingPage() {
     const [Meeting, setMeeting] = useState([]);
@@ -17,7 +17,6 @@ function LandingPage() {
         });
     }, []);
     const renderCards = Meeting.map((meet, index) => {
-        console.log(meet);
         return (
             <Col
                 lg={6}
@@ -27,27 +26,7 @@ function LandingPage() {
                 key={index}
                 style={{ minHeight: "300px" }}
             >
-                <Card
-                    title={meet.title}
-                    bordered={false}
-                    style={{ width: 300 }}
-                >
-                    <p>
-                        <span>장소 : </span>
-                        <span>{meet.place}</span>
-                    </p>
-                    <p>
-                        <span>일시 : </span>
-                        <span>{moment(meet.dt)}</span>
-                    </p>
-                    <p>
-                        <span>설명 : </span>
-                    </p>
-                    <p>
-                        <span>인원제한 : </span>
-                        <span></span>
-                    </p>
-                </Card>
+                <MeetCard meet={meet}></MeetCard>
             </Col>
         );
     });
