@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "antd";
-import { Areas, Parts } from "../../../area_parts";
+import { Areas, Parts } from "../Section/area_parts";
 import moment from "moment";
 
 function MeetCard(props) {
@@ -14,7 +14,6 @@ function MeetCard(props) {
                     background:
                         "linear-gradient(to right bottom,#2193b0 ,#6dd5ed)",
                 },
-                bodyStyle: { backgroundColor: "#333" },
                 headStyle: { width: "100%", backgroundColor: "#fff" },
             });
         } else if (props.meet.part === 2) {
@@ -25,7 +24,6 @@ function MeetCard(props) {
                     background:
                         "linear-gradient(to right bottom, #ffafbd , #ffc3a0)",
                 },
-                bodyStyle: { backgroundColor: "#666" },
                 headStyle: { width: "100%", backgroundColor: "#ccc" },
             });
         } else if (props.meet.part === 3) {
@@ -36,7 +34,6 @@ function MeetCard(props) {
                     background:
                         "linear-gradient(to right bottom, #06beb6 , #48b1bf)",
                 },
-                bodyStyle: { backgroundColor: "#999" },
                 headStyle: { width: "100%", backgroundColor: "#aaa" },
             });
         } else if (props.meet.part === 4) {
@@ -47,7 +44,6 @@ function MeetCard(props) {
                     background:
                         "linear-gradient(to right bottom,#ba5370 ,#f4e2d8)",
                 },
-                bodyStyle: { backgroundColor: "#999" },
                 headStyle: { width: "100%", backgroundColor: "#aaa" },
             });
         }
@@ -57,7 +53,7 @@ function MeetCard(props) {
         <Card
             bordered={Attr.bordered}
             style={Attr.style}
-            //bodyStyle={Attr.bodyStyle}
+            bodyStyle={{ padding: "10px", height: "250px", overflow: "hidden" }}
             //headStyle={Attr.headStyle}
             title={
                 <span style={{ color: "#fff", fontSize: "1.2rem" }}>

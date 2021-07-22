@@ -11,7 +11,7 @@ import {
 import Axios from "axios";
 import moment from "moment";
 
-import { Areas, Parts } from "../../area_parts";
+import { Areas, Parts } from "../LandingPage/Section/area_parts";
 
 const { TextArea } = Input;
 const { Option } = Select;
