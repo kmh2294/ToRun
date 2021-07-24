@@ -5,6 +5,7 @@ import "moment/locale/ko";
 import MeetCard from "./MeetCard/MeetCard";
 import AreaCheck from "./Section/AreaCheck";
 import PartCheck from "./Section/PartCheck";
+import SearchFeature from "./Section/SearchFeature";
 import { Areas, Parts } from "./Section/area_parts";
 
 function LandingPage() {
@@ -16,6 +17,7 @@ function LandingPage() {
         area: [],
         part: [],
     });
+    const [SearchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         let body = {
@@ -46,6 +48,7 @@ function LandingPage() {
         let body = {
             skip: skip,
             limit: Limit,
+            filters: Filters,
             loadMore: true,
         };
         getMeeting(body);
@@ -84,21 +87,52 @@ function LandingPage() {
         showFilteredResults(newFilters);
         setFilters(newFilters);
     };
-
+    const updateSearchTerm = (newSearchTerm) => {
+        let body = {
+            skip: 0,
+            limit: Limit,
+            filters: Filters,
+            searchTerm: newSearchTerm,
+        };
+        getMeeting(body);
+        setSkip(0);
+        setSearchTerm(newSearchTerm);
+    };
     return (
         <div style={{ width: "75%", margin: "3rem auto" }}>
             <div style={{ textAlign: "center" }}>
                 <h2>같이의 가치 - 투게더 런</h2>
             </div>
-            <AreaCheck
-                list={Areas}
-                handleFilters={(filters) => handleFilters(filters, "area")}
-            ></AreaCheck>
-            <PartCheck
-                list={Parts}
-                handleFilters={(filters) => handleFilters(filters, "part")}
-            ></PartCheck>
 
+            <Row gutter={[16, 16]}>
+                <Col lg={12} xs={24} key={1}>
+                    <AreaCheck
+                        list={Areas}
+                        handleFilters={(filters) =>
+                            handleFilters(filters, "area")
+                        }
+                    ></AreaCheck>
+                </Col>
+                <Col lg={12} xs={24} key={2}>
+                    <PartCheck
+                        list={Parts}
+                        handleFilters={(filters) =>
+                            handleFilters(filters, "part")
+                        }
+                    ></PartCheck>
+                </Col>
+            </Row>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    margin: "1rem auto",
+                }}
+            >
+                <SearchFeature
+                    refreshFunction={updateSearchTerm}
+                ></SearchFeature>
+            </div>
             <Row gutter={[16, 16]}>{renderCards}</Row>
 
             {PostSize >= Limit && (

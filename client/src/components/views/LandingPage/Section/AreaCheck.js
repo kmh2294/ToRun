@@ -30,9 +30,8 @@ function AreaCheck(props) {
                 <span>{value.value}</span>
             </React.Fragment>
         ));
-    const onChange = () => {};
     return (
-        <Collapse defaultActiveKey={["1"]}>
+        <Collapse>
             <Panel header="지역 설정" key="1">
                 {renderCheckboxList()}
             </Panel>

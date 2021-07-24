@@ -11,8 +11,7 @@ function MeetCard(props) {
                 bordered: true,
                 style: {
                     width: "100%",
-                    background:
-                        "linear-gradient(to right bottom,#2193b0 ,#6dd5ed)",
+                    background: "linear-gradient(to bottom,#2193b0 ,#6dd5ed)",
                 },
                 headStyle: { width: "100%", backgroundColor: "#fff" },
             });
@@ -21,8 +20,7 @@ function MeetCard(props) {
                 bordered: true,
                 style: {
                     width: "100%",
-                    background:
-                        "linear-gradient(to right bottom, #ffafbd , #ffc3a0)",
+                    background: "linear-gradient(to bottom, #ffafbd , #ffc3a0)",
                 },
                 headStyle: { width: "100%", backgroundColor: "#ccc" },
             });
@@ -31,8 +29,7 @@ function MeetCard(props) {
                 bordered: true,
                 style: {
                     width: "100%",
-                    background:
-                        "linear-gradient(to right bottom, #06beb6 , #48b1bf)",
+                    background: "linear-gradient(to bottom, #48b1bf , #06beb6)",
                 },
                 headStyle: { width: "100%", backgroundColor: "#aaa" },
             });
@@ -41,13 +38,12 @@ function MeetCard(props) {
                 bordered: true,
                 style: {
                     width: "100%",
-                    background:
-                        "linear-gradient(to right bottom,#ba5370 ,#f4e2d8)",
+                    background: "linear-gradient(to bottom,#ba5370 ,#f4e2d8)",
                 },
                 headStyle: { width: "100%", backgroundColor: "#aaa" },
             });
         }
-    }, []);
+    }, [props.meet.part]);
 
     return (
         <Card

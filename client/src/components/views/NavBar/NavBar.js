@@ -22,7 +22,10 @@ function NavBar() {
         >
             <div className="menu__logo">
                 <a href="/">
-                    <img src={`http://localhost:5000/images/logo2.png`} />
+                    <img
+                        src={`http://localhost:5000/images/logo2.png`}
+                        alt="logo"
+                    />
                 </a>
             </div>
             <div className="menu__container">

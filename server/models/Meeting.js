@@ -46,6 +46,19 @@ const meetingSchema = mongoose.Schema(
     },
     { timestamps: true }
 );
+meetingSchema.index(
+    {
+        title: "text",
+        description: "text",
+        place: "text",
+    },
+    {
+        weight: {
+            title: 5,
+            place: 2,
+        },
+    }
+);
 
 const Meeting = mongoose.model("Meeting", meetingSchema);
 
