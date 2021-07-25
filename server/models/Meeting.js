@@ -53,8 +53,9 @@ meetingSchema.index(
         place: "text",
     },
     {
-        weight: {
+        weights: {
             title: 5,
+            description: 2,
             place: 2,
         },
     }

@@ -32,7 +32,7 @@ function AreaCheck(props) {
         ));
     return (
         <Collapse>
-            <Panel header="지역 설정" key="1">
+            <Panel header="지역" key="1">
                 {renderCheckboxList()}
             </Panel>
         </Collapse>

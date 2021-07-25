@@ -7,6 +7,7 @@ import AreaCheck from "./Section/AreaCheck";
 import PartCheck from "./Section/PartCheck";
 import SearchFeature from "./Section/SearchFeature";
 import { Areas, Parts } from "./Section/area_parts";
+import MeetingDetail from "./Section/MeetingDetail";
 
 function LandingPage() {
     const [Meeting, setMeeting] = useState([]);
@@ -18,7 +19,8 @@ function LandingPage() {
         part: [],
     });
     const [SearchTerm, setSearchTerm] = useState("");
-
+    const [isModalVisible, setisModalVisible] = useState(false);
+    const [DetailInfo, setDetailInfo] = useState({});
     useEffect(() => {
         let body = {
             skip: Skip,
@@ -54,7 +56,13 @@ function LandingPage() {
         getMeeting(body);
         setSkip(skip);
     };
-
+    const cardClickFunction = (meet) => {
+        setDetailInfo(meet);
+        setisModalVisible(true);
+    };
+    const closeFunction = () => {
+        setisModalVisible(false);
+    };
     const renderCards = Meeting.map((meet, index) => {
         return (
             <Col
@@ -65,7 +73,10 @@ function LandingPage() {
                 key={index}
                 style={{ minHeight: "300px" }}
             >
-                <MeetCard meet={meet}></MeetCard>
+                <MeetCard
+                    meet={meet}
+                    clickFunction={(meet) => cardClickFunction(meet)}
+                ></MeetCard>
             </Col>
         );
     });
@@ -79,6 +90,7 @@ function LandingPage() {
         getMeeting(body);
         setSkip(0);
     };
+
     const handleFilters = (filters, category) => {
         const newFilters = { ...Filters };
 
@@ -87,6 +99,7 @@ function LandingPage() {
         showFilteredResults(newFilters);
         setFilters(newFilters);
     };
+
     const updateSearchTerm = (newSearchTerm) => {
         let body = {
             skip: 0,
@@ -94,7 +107,18 @@ function LandingPage() {
             filters: Filters,
             searchTerm: newSearchTerm,
         };
-        getMeeting(body);
+        Axios.post("/api/meeting/meetings", body).then((response) => {
+            if (response.data.success) {
+                if (body.loadMore) {
+                    setMeeting([...Meeting, ...response.data.meetingInfo]);
+                } else {
+                    setMeeting(response.data.meetingInfo);
+                }
+                setPostSize(response.data.postSize);
+            } else {
+                alert("데이터를 불러오는데 실패하였습니다.");
+            }
+        });
         setSkip(0);
         setSearchTerm(newSearchTerm);
     };
@@ -134,7 +158,11 @@ function LandingPage() {
                 ></SearchFeature>
             </div>
             <Row gutter={[16, 16]}>{renderCards}</Row>
-
+            <MeetingDetail
+                isModalVisible={isModalVisible}
+                closeFunction={closeFunction}
+                detail={DetailInfo}
+            ></MeetingDetail>
             {PostSize >= Limit && (
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <button onClick={loadMoreHandler}>더보기</button>

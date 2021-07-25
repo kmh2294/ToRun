@@ -32,7 +32,7 @@ function PartCheck(props) {
         ));
     return (
         <Collapse>
-            <Panel header="종목 설정" key="1">
+            <Panel header="종목" key="1">
                 {renderCheckboxList()}
             </Panel>
         </Collapse>
