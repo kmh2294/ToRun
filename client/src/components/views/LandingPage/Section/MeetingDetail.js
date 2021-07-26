@@ -1,14 +1,50 @@
 import React, { useState } from "react";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 
 import { Areas, Parts } from "./area_parts";
 import moment from "moment";
+import Axios from "axios";
 
 function MeetingDetail(props) {
     const handleOk = () => {
-        props.closeFunction();
+        let body = {
+            userId: props.user.userData._id,
+            id: props.detail._id,
+        };
+        Axios.post("/api/meeting/join", body).then((response) => {
+            if (response.data.success) {
+                alert("참여하였습니다. 시간약속을 준수해주세요");
+                props.updateMeetingInfo(response.data.meetingInfo);
+            } else {
+                console.log(response.data.err);
+                if (response.data.dupl) {
+                    alert("이미 참여하였습니다");
+                } else {
+                    alert("실패하였습니다");
+                }
+            }
+        });
     };
 
+    const joinCancel = () => {
+        let body = {
+            userId: props.user.userData._id,
+            id: props.detail._id,
+        };
+        Axios.post("/api/meeting/joinCancel", body).then((response) => {
+            if (response.data.success) {
+                alert("참여가 취소되었습니다");
+                props.updateMeetingInfo(response.data.meetingInfo);
+            } else {
+                console.log(response.data.err);
+                if (response.data.dupl) {
+                    alert("참여중인 모임이 아닙니다.");
+                } else {
+                    alert("실패하였습니다");
+                }
+            }
+        });
+    };
     const handleCancel = () => {
         props.closeFunction();
     };
@@ -18,6 +54,8 @@ function MeetingDetail(props) {
             visible={props.isModalVisible}
             onOk={handleOk}
             onCancel={handleCancel}
+            okText="참여하기"
+            //footer={<Button onClick={joinCancel}>참여취소</Button>}
         >
             <p>
                 <span>종목 : </span>
@@ -50,6 +88,12 @@ function MeetingDetail(props) {
             </p>
             <p>
                 <span>인원제한 : {props.detail.person} 명 까지 </span>
+                <span style={{ color: "red" }}>
+                    (현재
+                    {props.detail.participants &&
+                        props.detail.participants.length}{" "}
+                    명)
+                </span>
                 <span></span>
             </p>
         </Modal>

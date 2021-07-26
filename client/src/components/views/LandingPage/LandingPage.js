@@ -9,7 +9,7 @@ import SearchFeature from "./Section/SearchFeature";
 import { Areas, Parts } from "./Section/area_parts";
 import MeetingDetail from "./Section/MeetingDetail";
 
-function LandingPage() {
+function LandingPage(props) {
     const [Meeting, setMeeting] = useState([]);
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(4);
@@ -57,6 +57,7 @@ function LandingPage() {
         setSkip(skip);
     };
     const cardClickFunction = (meet) => {
+        console.log(meet);
         setDetailInfo(meet);
         setisModalVisible(true);
     };
@@ -122,6 +123,16 @@ function LandingPage() {
         setSkip(0);
         setSearchTerm(newSearchTerm);
     };
+    const updateMeetingInfo = (meet) => {
+        let newMeeting = [...Meeting];
+
+        newMeeting.map((v, i) => {
+            if (v.id === meet.id) {
+                newMeeting[i].participants = meet.participants;
+            }
+        });
+        setMeeting(newMeeting);
+    };
     return (
         <div style={{ width: "75%", margin: "3rem auto" }}>
             <div style={{ textAlign: "center" }}>
@@ -162,6 +173,8 @@ function LandingPage() {
                 isModalVisible={isModalVisible}
                 closeFunction={closeFunction}
                 detail={DetailInfo}
+                user={props.user}
+                updateMeetingInfo={updateMeetingInfo}
             ></MeetingDetail>
             {PostSize >= Limit && (
                 <div style={{ display: "flex", justifyContent: "center" }}>

@@ -88,6 +88,7 @@ function UploadPage(props) {
             place: Place,
             part: Part,
             area: Area,
+            participants: props.user.userData._id,
         };
         Axios.post("/api/meeting", body).then((response) => {
             if (response.data.success) {

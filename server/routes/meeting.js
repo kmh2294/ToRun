@@ -63,4 +63,65 @@ router.post("/meetings", (req, res) => {
         console.log(err);
     }
 });
+router.post("/join", (req, res) => {
+    // 받아온 정보들을 디비에 저장한다
+    const userId = req.body.userId;
+    const id = req.body.id;
+    Meeting.findOne({ _id: id }, (err, meetingInfo) => {
+        let duplicate = false;
+        meetingInfo.participants.forEach((item) => {
+            if (item === userId) {
+                duplicate = true;
+            }
+        });
+        if (duplicate) {
+            res.status(200).json({ success: false, dupl: true });
+        } else {
+            Meeting.findOneAndUpdate(
+                { _id: id },
+                {
+                    $push: {
+                        participants: userId,
+                    },
+                },
+                { new: true },
+                (err, meetingInfo) => {
+                    if (err) res.status(400).json({ success: false, err });
+                    res.status(200).json({ success: true, meetingInfo });
+                }
+            );
+        }
+    });
+});
+router.post("/joinCancel", (req, res) => {
+    // 받아온 정보들을 디비에 저장한다
+    const userId = req.body.userId;
+    const id = req.body.id;
+    Meeting.findOne({ _id: id }, (err, meetingInfo) => {
+        let duplicate = false;
+        meetingInfo.participants.forEach((item) => {
+            if (item === userId) {
+                duplicate = true;
+            }
+        });
+        if (!duplicate) {
+            res.status(200).json({ success: false, dupl: true });
+        } else {
+            Meeting.findOneAndUpdate(
+                { _id: id },
+                {
+                    $pull: {
+                        participants: userId,
+                    },
+                },
+                { new: true },
+                (err, meetingInfo) => {
+                    if (err) res.status(400).json({ success: false, err });
+                    res.status(200).json({ success: true, meetingInfo });
+                }
+            );
+        }
+    });
+});
+
 module.exports = router;
