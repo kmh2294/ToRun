@@ -57,7 +57,6 @@ function LandingPage(props) {
         setSkip(skip);
     };
     const cardClickFunction = (meet) => {
-        console.log(meet);
         setDetailInfo(meet);
         setisModalVisible(true);
     };
@@ -125,9 +124,8 @@ function LandingPage(props) {
     };
     const updateMeetingInfo = (meet) => {
         let newMeeting = [...Meeting];
-
         newMeeting.map((v, i) => {
-            if (v.id === meet.id) {
+            if (v._id === meet._id) {
                 newMeeting[i].participants = meet.participants;
             }
         });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "antd";
 
 import { Areas, Parts } from "./area_parts";
@@ -6,7 +6,22 @@ import moment from "moment";
 import Axios from "axios";
 
 function MeetingDetail(props) {
+    const [IsParticipants, setIsParticipants] = useState(true);
+    useEffect(() => {
+        if (props.detail.participants) {
+            let val = true;
+            props.detail.participants.map((v) => {
+                if (v === props.user.userData._id) {
+                    val = false;
+                }
+            });
+            setIsParticipants(val);
+        }
+    }, [props.detail.participants]);
     const handleOk = () => {
+        if (!props.user.userData._id) {
+            return alert("로그인이 필요합니다.");
+        }
         let body = {
             userId: props.user.userData._id,
             id: props.detail._id,
@@ -52,9 +67,9 @@ function MeetingDetail(props) {
         <Modal
             title={props.detail.title}
             visible={props.isModalVisible}
-            onOk={handleOk}
+            onOk={IsParticipants ? handleOk : joinCancel}
             onCancel={handleCancel}
-            okText="참여하기"
+            okText={IsParticipants ? "참여하기" : "참여취소"}
             //footer={<Button onClick={joinCancel}>참여취소</Button>}
         >
             <p>
