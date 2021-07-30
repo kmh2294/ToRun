@@ -12,7 +12,7 @@ import MeetingDetail from "./Section/MeetingDetail";
 function LandingPage(props) {
     const [Meeting, setMeeting] = useState([]);
     const [Skip, setSkip] = useState(0);
-    const [Limit, setLimit] = useState(4);
+    const [Limit, setLimit] = useState(16);
     const [PostSize, setPostSize] = useState(0);
     const [Filters, setFilters] = useState({
         area: [],
