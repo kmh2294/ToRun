@@ -23,7 +23,7 @@ router.post("/meetings", (req, res) => {
         //meeting collection 에 들어있는 모든 정보를 가져온다
         let term = req.body.searchTerm;
 
-        let findArgs = {};
+        let findArgs = { status: 0 };
         for (let key in req.body.filters) {
             if (req.body.filters[key].length > 0) {
                 findArgs[key] = req.body.filters[key];
@@ -59,6 +59,22 @@ router.post("/meetings", (req, res) => {
                     });
                 });
         }
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.get("/meetOne", (req, res) => {
+    try {
+        Meeting.findOne({ _id: req.query.id })
+            .populate("writer")
+            .exec((err, meetOne) => {
+                if (err) return res.status(400).json({ success: false, err });
+                return res.status(200).json({
+                    success: true,
+                    meetOne,
+                });
+            });
     } catch (err) {
         console.log(err);
     }
@@ -121,6 +137,30 @@ router.post("/joinCancel", (req, res) => {
                 }
             );
         }
+    });
+});
+router.post("/inserComment", (req, res) => {
+    Meeting.findOne({ _id: req.body.id }, (err, meetingInfo) => {
+        Meeting.findOneAndUpdate(
+            { _id: req.body.id },
+            {
+                $push: {
+                    comment: {
+                        createAt: req.body.createAt,
+                        commentWriter: req.body.commentWriter,
+                        content: req.body.content,
+                    },
+                },
+            },
+            { new: true },
+            (err, meetingInfo) => {
+                if (err) res.status(400).json({ success: false, err });
+                res.status(200).json({
+                    success: true,
+                    comment: meetingInfo.comment,
+                });
+            }
+        );
     });
 });
 

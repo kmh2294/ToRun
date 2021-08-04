@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card } from "antd";
 import { Areas, Parts } from "../Section/area_parts";
 import moment from "moment";
+import Axios from "axios";
 
 function MeetCard(props) {
     const [Attr, setAttr] = useState({});
@@ -69,7 +70,15 @@ function MeetCard(props) {
         }
     }, [props.meet.part]);
     const clickHandler = () => {
-        props.clickFunction(props.meet);
+        Axios.get("/api/meeting/meetOne?id=" + props.meet._id).then(
+            (response) => {
+                if (response.data.success) {
+                    props.clickFunction(response.data.meetOne);
+                } else {
+                    alert("데이터를 불러오는데 실패하였습니다.");
+                }
+            }
+        );
     };
     return (
         <div onClick={clickHandler}>

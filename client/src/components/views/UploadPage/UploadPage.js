@@ -77,6 +77,9 @@ function UploadPage(props) {
         ) {
             return alert("모든 칸을 채워주시기 바랍니다");
         }
+        if (DT.length < 16) {
+            return alert("시간입력바랍니다.");
+        }
         //서버에 채운값들을 리퀘스트로 보낸다
         const body = {
             //로그인된 사람의 아이디값을 넣어준다

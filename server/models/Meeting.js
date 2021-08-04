@@ -43,6 +43,16 @@ const meetingSchema = mongoose.Schema(
             default: 0,
             // 0 : 모집중 , 1 : 종료
         },
+        comment: {
+            type: [
+                {
+                    createAt: Date,
+                    commentWriter: String,
+                    content: String,
+                },
+            ],
+            default: [],
+        },
     },
     { timestamps: true }
 );

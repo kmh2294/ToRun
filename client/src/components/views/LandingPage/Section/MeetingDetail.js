@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, Collapse } from "antd";
 
 import { Areas, Parts } from "./area_parts";
 import moment from "moment";
 import Axios from "axios";
+import CommentSection from "./CommentSection";
+
+const { Panel } = Collapse;
 
 function MeetingDetail(props) {
     const [IsParticipants, setIsParticipants] = useState(true);
@@ -111,6 +114,16 @@ function MeetingDetail(props) {
                 </span>
                 <span></span>
             </p>
+            <div>
+                <Collapse>
+                    <Panel header="댓글" key="1">
+                        <CommentSection
+                            user={props.user}
+                            detail={props.detail}
+                        ></CommentSection>
+                    </Panel>
+                </Collapse>
+            </div>
         </Modal>
     );
 }
